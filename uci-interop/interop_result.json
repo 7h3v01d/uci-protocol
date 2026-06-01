@@ -1,0 +1,484 @@
+{
+  "uci_interop_version": "0.1",
+  "run_id": "b4b8c189",
+  "timestamp": "2026-06-01T23:03:15Z",
+  "verdict": "pass",
+  "python_version": "3.12",
+  "implementations": {
+    "python": "uci-python v0.1.0-alpha",
+    "typescript": "uci-typescript v0.1.0-alpha"
+  },
+  "directions": {
+    "python_to_typescript": true,
+    "typescript_to_python": true
+  },
+  "steps": [
+    {
+      "step": "Python produces canonical objects",
+      "passed": true,
+      "checks": "8/8",
+      "details": [
+        {
+          "name": "Python producer exits cleanly",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced python_manifest.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced python_invocation.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced python_response_success.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced python_response_failure.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced python_audit_session.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Python audit integrity self-check",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Python session hash self-check",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "step": "TypeScript validates Python output",
+      "passed": true,
+      "checks": "29/29",
+      "details": [
+        {
+          "name": "Schema valid",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "node_id non-empty",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "display_name non-empty",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has capabilities",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has transports",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "health block present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "version is 0.1",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has invocation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has correlation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has caller.node_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has target.node_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "version is 0.1",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema valid",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "success == true",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "state == completed",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "output present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error is null",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema valid",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "success == false",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "state == denied",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.code canonical",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.retryable is bool",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.severity present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema valid",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Session hash verifies",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Chain integrity intact",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "node_discovered present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "trust_assigned present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "node_ready present",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "step": "TypeScript produces canonical objects",
+      "passed": true,
+      "checks": "8/8",
+      "details": [
+        {
+          "name": "TypeScript producer exits cleanly",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced typescript_manifest.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced typescript_invocation.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced typescript_response_success.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced typescript_response_failure.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Produced typescript_audit_session.json",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "TypeScript audit integrity self-check",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "TypeScript session hash self-check",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "step": "Python validates TypeScript output",
+      "passed": true,
+      "checks": "42/42",
+      "details": [
+        {
+          "name": "Schema validation passes",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Semantic validation passes",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "node_id is non-empty",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "display_name is non-empty",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has capabilities",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has transports",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "node_type is canonical",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has uci_invocation_version",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has invocation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has correlation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has timestamp",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has caller block",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has target block",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has payload",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema validation passes",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "success == True",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "state == 'completed'",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "output is present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error is None",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has invocation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has correlation_id",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "provider.node_id non-empty",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "governance.outcome present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "audit snapshot present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema validation passes",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "success == False",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "state == 'denied'",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error is present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.code is lowercase",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.code is canonical",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.retryable is bool",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "error.severity is present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "output is None",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Schema validation passes",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Has records",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Session hash is present",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Session hash verifies",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Chain integrity intact",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Contains node_discovered",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Contains trust_assigned",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Contains node_ready",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "Contains invocation records",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    }
+  ],
+  "total_checks": {
+    "total": 87,
+    "passed": 87
+  }
+}

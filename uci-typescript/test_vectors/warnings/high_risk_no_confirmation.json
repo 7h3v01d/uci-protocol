@@ -1,0 +1,8 @@
+{
+  "uci_manifest_version": "0.1",
+  "node": {"node_id": "n", "instance_id": "i", "display_name": "N", "node_type": "service", "version": "1.0.0", "vendor": "Test"},
+  "capabilities": [{"capability_id": "c", "version": "1.0", "category": "execution", "description": "Executes things.", "actions": [{"action_id": "execute", "description": "Run something.", "execution": {"mode": "sync", "timeout_ms": 5000}, "risk": {"level": "high", "categories": ["code_execution"]}, "permissions": {"operator_confirmation": "none", "minimum_trust_state": "trusted"}, "input_schema": {}, "output_schema": {}}]}],
+  "transports": [{"transport_id": "t", "type": "ipc", "endpoint": "uci://local/n"}],
+  "governance": {"default_action_policy": "deny", "audit_required": true},
+  "compliance": {"profile": "minimal"}, "audit": {"audit_enabled": true}, "extensions": {}, "health": {}
+}

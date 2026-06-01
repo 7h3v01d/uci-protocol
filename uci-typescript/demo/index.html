@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCI Manifest Validator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a0f;
+    --surface:   #111118;
+    --border:    #1e1e2e;
+    --border-hi: #2a2a3e;
+    --text:      #c8c8d8;
+    --text-dim:  #5a5a7a;
+    --text-hi:   #e8e8f8;
+    --green:     #00e676;
+    --red:       #ff4f6a;
+    --amber:     #ffab40;
+    --cyan:      #40c4ff;
+    --purple:    #9c7eff;
+    --mono:      "IBM Plex Mono", monospace;
+    --sans:      "IBM Plex Sans", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Layout ── */
+  .app {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--surface);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cyan);
+    letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .logo-title {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-hi);
+    letter-spacing: 0.04em;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    border: 1px solid var(--border-hi);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Main ── */
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .pane {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .pane:last-child { border-right: none; }
+
+  .pane-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .pane-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pane-actions {
+    display: flex; gap: 8px;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-hi);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .btn:hover { color: var(--text-hi); border-color: var(--text-dim); }
+
+  .btn-validate {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: rgba(64,196,255,0.06);
+  }
+  .btn-validate:hover {
+    background: rgba(64,196,255,0.14);
+    color: var(--text-hi);
+  }
+
+  /* ── Editor ── */
+  .editor-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  textarea {
+    width: 100%; height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    padding: 20px;
+    tab-size: 2;
+    caret-color: var(--cyan);
+  }
+  textarea::placeholder { color: var(--text-dim); }
+
+  textarea:focus { background: rgba(255,255,255,0.01); }
+
+  /* ── Results ── */
+  .results {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .status-banner {
+    border-radius: 6px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    transition: all 0.3s;
+  }
+
+  .status-valid   { border-color: var(--green); background: rgba(0,230,118,0.06); color: var(--green); }
+  .status-invalid { border-color: var(--red);   background: rgba(255,79,106,0.06); color: var(--red); }
+  .status-idle    { border-color: var(--border-hi); background: var(--surface); color: var(--text-dim); }
+
+  .status-icon { font-size: 18px; flex-shrink: 0; }
+
+  .status-detail {
+    margin-left: auto;
+    font-size: 11px;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  /* ── Issue cards ── */
+  .issues-section { display: flex; flex-direction: column; gap: 6px; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    padding-left: 2px;
+  }
+
+  .issue-card {
+    border-radius: 5px;
+    padding: 10px 14px;
+    border: 1px solid;
+    font-size: 12.5px;
+    line-height: 1.5;
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .issue-error   { border-color: rgba(255,79,106,0.3);  background: rgba(255,79,106,0.05); }
+  .issue-warning { border-color: rgba(255,171,64,0.3);  background: rgba(255,171,64,0.05); }
+
+  .issue-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 3px;
+  }
+
+  .issue-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  .badge-error   { background: rgba(255,79,106,0.2);  color: var(--red); }
+  .badge-warning { background: rgba(255,171,64,0.2);  color: var(--amber); }
+
+  .issue-code {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+
+  .issue-message { color: var(--text); }
+
+  .issue-location {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--cyan);
+    margin-top: 3px;
+    opacity: 0.8;
+  }
+
+  /* ── Metadata strip ── */
+  .meta-strip {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .meta-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-hi);
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .meta-chip .chip-label { opacity: 0.6; }
+  .meta-chip .chip-value { color: var(--text); }
+
+  /* ── Example buttons ── */
+  .examples-bar {
+    padding: 10px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .examples-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+
+  .example-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-hi);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .example-btn:hover { color: var(--text-hi); border-color: var(--text-dim); }
+  .example-btn.valid   { border-color: rgba(0,230,118,0.4); color: var(--green); }
+  .example-btn.invalid { border-color: rgba(255,79,106,0.4); color: var(--red); }
+  .example-btn.warn    { border-color: rgba(255,171,64,0.4); color: var(--amber); }
+
+  /* ── Empty state ── */
+  .empty-state {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; color: var(--text-dim);
+    padding: 40px;
+    text-align: center;
+  }
+  .empty-icon { font-size: 36px; opacity: 0.3; }
+  .empty-title { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+  .empty-sub   { font-size: 12px; opacity: 0.6; max-width: 240px; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  footer a { color: var(--cyan); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  .footer-right {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+    .pane { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">UCI</div>
+      <div class="logo-text">
+        <span class="logo-title">Manifest Validator</span>
+        <span class="logo-sub">Universal Capability Interface · v0.1</span>
+      </div>
+    </div>
+    <span class="header-badge">spec · uci-spec.org</span>
+  </header>
+
+  <main>
+    <!-- LEFT: Editor -->
+    <div class="pane">
+      <div class="pane-header">
+        <span class="pane-title">manifest.json</span>
+        <div class="pane-actions">
+          <button class="btn" onclick="clearEditor()">clear</button>
+          <button class="btn btn-validate" onclick="validate()">validate →</button>
+        </div>
+      </div>
+      <div class="editor-wrap">
+        <textarea id="editor"
+          placeholder="Paste a UCI manifest JSON here, or choose an example below..."
+          onkeydown="handleKey(event)"
+          spellcheck="false"
+        ></textarea>
+      </div>
+      <div class="examples-bar">
+        <span class="examples-label">examples</span>
+        <button class="example-btn valid"   onclick="loadExample('valid')">✓ valid</button>
+        <button class="example-btn warn"    onclick="loadExample('warnings')">⚠ warnings</button>
+        <button class="example-btn invalid" onclick="loadExample('invalid')">✗ bad actor</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div class="pane">
+      <div class="pane-header">
+        <span class="pane-title">validation results</span>
+        <div id="result-badge"></div>
+      </div>
+      <div class="results" id="results">
+        <div class="empty-state">
+          <div class="empty-icon">◈</div>
+          <div class="empty-title">no manifest loaded</div>
+          <div class="empty-sub">paste a manifest JSON or choose an example to validate against the UCI v0.1 spec</div>
+        </div>
+      </div>
+      <div class="meta-strip" id="meta-strip" style="display:none"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      UCI Reference Implementation ·
+      <a href="https://github.com/keystoneai/uci-python" target="_blank">GitHub</a> ·
+      <a href="https://uci-spec.org" target="_blank">Spec</a>
+    </div>
+    <div class="footer-right">
+      <span>© Leon Priest / KeystoneAI</span>
+      <span>MIT License</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ── Spec constants ────────────────────────────────────────────────────────────
+
+const VALID_NODE_TYPES = new Set([
+  "application","service","agent","daemon",
+  "adapter","hardware_bridge","orchestrator","policy_engine","registry"
+]);
+const VALID_EXECUTION_MODES = new Set([
+  "sync","async","streaming","scheduled","event_driven"
+]);
+const VALID_TRANSPORT_TYPES = new Set([
+  "http","https","websocket","ipc","grpc","message_bus","local_socket","custom"
+]);
+const VALID_RISK_LEVELS = new Set(["none","low","medium","high","critical"]);
+const VALID_CAPABILITY_CATEGORIES = new Set([
+  "retrieval","storage","generation","analysis","transformation",
+  "communication","execution","governance","monitoring","vision",
+  "audio","identity","network","security","utility","other"
+]);
+const VALID_CONFIRMATION = new Set([
+  "none","recommended","required","required_with_reason","multi_party_required"
+]);
+const NODE_ID_PATTERN = /^[a-zA-Z0-9_\-.]+$/;
+
+// ── Validator ─────────────────────────────────────────────────────────────────
+
+function validateManifest(data) {
+  const errors = [], warnings = [];
+  const err  = (code, message, location="") => errors.push({code, message, location, severity:"error"});
+  const warn = (code, message, location="") => warnings.push({code, message, location, severity:"warning"});
+
+  // Version
+  if (!data.uci_manifest_version) {
+    err("MISSING_BLOCK", "Required block 'uci_manifest_version' is missing.", "uci_manifest_version");
+  } else if (data.uci_manifest_version !== "0.1") {
+    err("UNSUPPORTED_VERSION", `Manifest version '${data.uci_manifest_version}' is not supported. Supported: ['0.1']`, "uci_manifest_version");
+  }
+
+  // Required blocks
+  for (const block of ["node","capabilities","transports","governance","health"]) {
+    if (!(block in data)) {
+      err("MISSING_BLOCK", `Required top-level block '${block}' is missing.`, block);
+    }
+  }
+  for (const block of ["compliance","audit","extensions"]) {
+    if (!(block in data)) {
+      warn("MISSING_RECOMMENDED_BLOCK", `Recommended block '${block}' is absent.`, block);
+    }
+  }
+
+  // Node
+  if (data.node) {
+    const n = data.node;
+    if (!n.node_id)       err("MISSING_FIELD", "node.node_id is required and must be non-empty.", "node.node_id");
+    else if (!NODE_ID_PATTERN.test(n.node_id)) err("INVALID_IDENTIFIER", `node_id '${n.node_id}' contains invalid characters.`, "node.node_id");
+    if (!n.instance_id)   err("MISSING_FIELD", "node.instance_id is required.", "node.instance_id");
+    if (!n.display_name)  err("MISSING_FIELD", "node.display_name is required.", "node.display_name");
+    if (!n.node_type)     err("MISSING_FIELD", "node.node_type is required.", "node.node_type");
+    else if (!VALID_NODE_TYPES.has(n.node_type))
+      err("INVALID_ENUM", `node_type '${n.node_type}' is not a canonical UCI v0.1 node type. Valid: ${[...VALID_NODE_TYPES].join(", ")}`, "node.node_type");
+    if (!n.vendor)        warn("MISSING_VENDOR", "node.vendor is empty. Recommended for identification.", "node.vendor");
+    if (!n.description)   warn("MISSING_NODE_DESCRIPTION", "node.description is empty.", "node.description");
+  }
+
+  // Capabilities
+  if (data.capabilities !== undefined) {
+    if (!Array.isArray(data.capabilities) || data.capabilities.length === 0) {
+      err("EMPTY_CAPABILITIES", "Manifest must declare at least one capability.", "capabilities");
+    } else {
+      data.capabilities.forEach((cap, ci) => {
+        const loc = `capabilities[${ci}]`;
+        if (!cap.capability_id) err("MISSING_FIELD", `Capability at index ${ci} requires a capability_id.`, `${loc}.capability_id`);
+        if (!VALID_CAPABILITY_CATEGORIES.has(cap.category))
+          err("INVALID_ENUM", `Capability category '${cap.category}' is not valid.`, `${loc}.category`);
+        if (!cap.description) warn("MISSING_CAPABILITY_DESCRIPTION", `Capability '${cap.capability_id||ci}' has no description.`, `${loc}.description`);
+        if (!Array.isArray(cap.actions) || cap.actions.length === 0) {
+          err("EMPTY_ACTIONS", `Capability '${cap.capability_id||ci}' must have at least one action.`, `${loc}.actions`);
+        } else {
+          cap.actions.forEach((act, ai) => {
+            const aloc = `${loc}.actions[${ai}]`;
+            if (!act.action_id) err("MISSING_FIELD", `Action at ${aloc} requires an action_id.`, `${aloc}.action_id`);
+            if (!act.description) warn("MISSING_ACTION_DESCRIPTION", `Action '${cap.capability_id||ci}/${act.action_id||ai}' has no description.`, `${aloc}.description`);
+            if (act.execution) {
+              if (!VALID_EXECUTION_MODES.has(act.execution.mode))
+                err("INVALID_ENUM", `Execution mode '${act.execution.mode}' is not valid. Note: 'stream' is invalid — use 'streaming'.`, `${aloc}.execution.mode`);
+              if ((act.execution.timeout_ms ?? 0) < 1)
+                err("INVALID_VALUE", `timeout_ms must be >= 1.`, `${aloc}.execution.timeout_ms`);
+            } else {
+              err("MISSING_FIELD", `Action '${act.action_id||ai}' requires an execution block.`, `${aloc}.execution`);
+            }
+            if (act.risk) {
+              if (!VALID_RISK_LEVELS.has(act.risk.level))
+                err("INVALID_ENUM", `Risk level '${act.risk.level}' is not valid.`, `${aloc}.risk.level`);
+              if (["high","critical"].includes(act.risk.level) && act.permissions?.operator_confirmation === "none")
+                warn("HIGH_RISK_NO_CONFIRMATION", `Action '${act.action_id||ai}' has risk '${act.risk.level}' but operator_confirmation is 'none'.`, `${aloc}.permissions.operator_confirmation`);
+            } else {
+              err("MISSING_FIELD", `Action '${act.action_id||ai}' requires a risk block.`, `${aloc}.risk`);
+            }
+            if (!act.input_schema  || Object.keys(act.input_schema).length === 0)  warn("MISSING_INPUT_SCHEMA",  `Action '${act.action_id||ai}' has no input_schema.`,  `${aloc}.input_schema`);
+            if (!act.output_schema || Object.keys(act.output_schema).length === 0) warn("MISSING_OUTPUT_SCHEMA", `Action '${act.action_id||ai}' has no output_schema.`, `${aloc}.output_schema`);
+          });
+        }
+      });
+    }
+  }
+
+  // Transports
+  if (data.transports !== undefined) {
+    if (!Array.isArray(data.transports) || data.transports.length === 0) {
+      err("EMPTY_TRANSPORTS", "Manifest must declare at least one transport.", "transports");
+    } else {
+      data.transports.forEach((t, ti) => {
+        const loc = `transports[${ti}]`;
+        if (!t.transport_id) err("MISSING_FIELD", `Transport at index ${ti} requires a transport_id.`, `${loc}.transport_id`);
+        if (!VALID_TRANSPORT_TYPES.has(t.type))
+          err("INVALID_ENUM", `Transport type '${t.type}' is not valid. Note: 'local' is invalid — use 'ipc' or 'local_socket'.`, `${loc}.type`);
+        if (!t.endpoint) err("MISSING_FIELD", `Transport '${t.transport_id||ti}' requires a non-empty endpoint.`, `${loc}.endpoint`);
+      });
+    }
+  }
+
+  // Governance
+  if (data.governance) {
+    const p = data.governance.default_action_policy;
+    if (p && !["allow","deny","defer"].includes(p))
+      err("INVALID_ENUM", `default_action_policy '${p}' is not valid. Must be allow, deny, or defer.`, "governance.default_action_policy");
+    if (p === "allow") warn("PERMISSIVE_DEFAULT_POLICY", "default_action_policy is 'allow'. Recommended: 'deny' for fail-closed behaviour.", "governance.default_action_policy");
+    if (data.governance.audit_required === false) warn("AUDIT_DISABLED", "governance.audit_required is false. Reduces traceability.", "governance.audit_required");
+  }
+
+  return { errors, warnings, valid: errors.length === 0 };
+}
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+
+function validate() {
+  const raw = document.getElementById("editor").value.trim();
+  if (!raw) { showEmpty(); return; }
+
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch(e) {
+    showParseError(e.message);
+    return;
+  }
+
+  const result = validateManifest(data);
+  renderResult(result, data);
+}
+
+function showEmpty() {
+  document.getElementById("results").innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">◈</div>
+      <div class="empty-title">nothing to validate</div>
+      <div class="empty-sub">type or paste a manifest JSON first</div>
+    </div>`;
+  document.getElementById("result-badge").innerHTML = "";
+  document.getElementById("meta-strip").style.display = "none";
+}
+
+function showParseError(msg) {
+  document.getElementById("results").innerHTML = `
+    <div class="status-banner status-invalid">
+      <span class="status-icon">✗</span>
+      <span>JSON parse error</span>
+    </div>
+    <div class="issue-card issue-error">
+      <div class="issue-header">
+        <span class="issue-badge badge-error">ERROR</span>
+        <span class="issue-code">JSON_PARSE_ERROR</span>
+      </div>
+      <div class="issue-message">${escHtml(msg)}</div>
+    </div>`;
+  document.getElementById("result-badge").innerHTML = "";
+  document.getElementById("meta-strip").style.display = "none";
+}
+
+function renderResult(result, data) {
+  const { errors, warnings, valid } = result;
+  const resultsEl   = document.getElementById("results");
+  const badgeEl     = document.getElementById("result-badge");
+  const metaEl      = document.getElementById("meta-strip");
+
+  // Status banner
+  const banner = valid
+    ? `<div class="status-banner status-valid">
+        <span class="status-icon">✓</span>
+        <span>manifest valid</span>
+        <span class="status-detail">${errors.length} errors · ${warnings.length} warnings</span>
+       </div>`
+    : `<div class="status-banner status-invalid">
+        <span class="status-icon">✗</span>
+        <span>manifest invalid</span>
+        <span class="status-detail">${errors.length} errors · ${warnings.length} warnings</span>
+       </div>`;
+
+  let html = banner;
+
+  // Issues
+  if (errors.length > 0) {
+    html += `<div class="issues-section">
+      <div class="section-label">errors (${errors.length})</div>`;
+    for (const issue of errors) {
+      html += issueCard(issue, "error");
+    }
+    html += `</div>`;
+  }
+
+  if (warnings.length > 0) {
+    html += `<div class="issues-section">
+      <div class="section-label">warnings (${warnings.length})</div>`;
+    for (const issue of warnings) {
+      html += issueCard(issue, "warning");
+    }
+    html += `</div>`;
+  }
+
+  if (errors.length === 0 && warnings.length === 0) {
+    html += `<div class="issue-card" style="border-color:rgba(0,230,118,0.2);background:rgba(0,230,118,0.04);padding:14px 18px;color:#00e676;font-size:13px;text-align:center;">
+      No issues found. This manifest is fully spec-compliant.
+    </div>`;
+  }
+
+  resultsEl.innerHTML = html;
+
+  // Badge
+  badgeEl.innerHTML = valid
+    ? `<span style="font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.06em;">VALID</span>`
+    : `<span style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:0.06em;">INVALID</span>`;
+
+  // Meta strip
+  const caps  = data.capabilities?.map(c => c.capability_id).join(", ") || "—";
+  const trans = data.transports?.map(t => t.transport_id).join(", ") || "—";
+  metaEl.style.display = "flex";
+  metaEl.innerHTML = `
+    <div class="meta-chip"><span class="chip-label">node</span> <span class="chip-value">${escHtml(data.node?.node_id || "—")}</span></div>
+    <div class="meta-chip"><span class="chip-label">version</span> <span class="chip-value">${escHtml(data.uci_manifest_version || "—")}</span></div>
+    <div class="meta-chip"><span class="chip-label">type</span> <span class="chip-value">${escHtml(data.node?.node_type || "—")}</span></div>
+    <div class="meta-chip"><span class="chip-label">caps</span> <span class="chip-value">${escHtml(caps)}</span></div>
+    <div class="meta-chip"><span class="chip-label">transport</span> <span class="chip-value">${escHtml(trans)}</span></div>`;
+}
+
+function issueCard(issue, type) {
+  const badgeClass = type === "error" ? "badge-error" : "badge-warning";
+  const cardClass  = type === "error" ? "issue-error" : "issue-warning";
+  const label      = type === "error" ? "ERROR" : "WARNING";
+  return `<div class="issue-card ${cardClass}">
+    <div class="issue-header">
+      <span class="issue-badge ${badgeClass}">${label}</span>
+      <span class="issue-code">${escHtml(issue.code)}</span>
+    </div>
+    <div class="issue-message">${escHtml(issue.message)}</div>
+    ${issue.location ? `<div class="issue-location">→ ${escHtml(issue.location)}</div>` : ""}
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function clearEditor() {
+  document.getElementById("editor").value = "";
+  showEmpty();
+}
+
+function handleKey(e) {
+  // Ctrl/Cmd+Enter to validate
+  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+    e.preventDefault();
+    validate();
+  }
+  // Tab indent
+  if (e.key === "Tab") {
+    e.preventDefault();
+    const el = e.target;
+    const s  = el.selectionStart;
+    el.value = el.value.substring(0, s) + "  " + el.value.substring(el.selectionEnd);
+    el.selectionStart = el.selectionEnd = s + 2;
+  }
+}
+
+// ── Example manifests ─────────────────────────────────────────────────────────
+
+const EXAMPLES = {
+  valid: JSON.stringify({
+    uci_manifest_version: "0.1",
+    node: {
+      node_id: "keystone_doc_service",
+      instance_id: "keystone_doc_001",
+      display_name: "Keystone Document Service",
+      node_type: "service",
+      version: "1.0.0",
+      vendor: "KeystoneAI",
+      description: "Indexes and retrieves documents with semantic search."
+    },
+    capabilities: [{
+      capability_id: "document_search",
+      version: "1.0",
+      category: "retrieval",
+      description: "Search and retrieve indexed documents.",
+      tags: ["search","retrieval","documents"],
+      actions: [{
+        action_id: "search_index",
+        description: "Search the document index by query string.",
+        execution: { mode: "sync", timeout_ms: 5000, idempotent: true, side_effects: false },
+        input_schema: { query: "string", limit: "integer" },
+        output_schema: { results: "array", count: "integer" },
+        risk: { level: "low", categories: ["read_only"], description: "Read-only search." },
+        permissions: { required_permissions: ["documents.read"], operator_confirmation: "none", minimum_trust_state: "trusted" },
+        errors: []
+      }]
+    }],
+    transports: [{
+      transport_id: "local_ipc",
+      type: "ipc",
+      endpoint: "uci://local/keystone_doc_service",
+      security: {}, options: {}
+    }],
+    governance: {
+      requires_policy_check: true,
+      audit_required: true,
+      operator_authority_required: false,
+      default_action_policy: "deny"
+    },
+    health: { expose_uptime: true, expose_metrics: false },
+    compliance: { profile: "minimal" },
+    audit: { audit_enabled: true },
+    extensions: {}
+  }, null, 2),
+
+  warnings: JSON.stringify({
+    uci_manifest_version: "0.1",
+    node: {
+      node_id: "minimal_agent",
+      instance_id: "minimal_001",
+      display_name: "Minimal Agent",
+      node_type: "agent",
+      version: "0.1.0",
+      vendor: "",
+      description: ""
+    },
+    capabilities: [{
+      capability_id: "task_runner",
+      version: "1.0",
+      category: "execution",
+      description: "",
+      actions: [{
+        action_id: "run_task",
+        description: "",
+        execution: { mode: "async", timeout_ms: 30000, side_effects: true },
+        input_schema: {},
+        output_schema: {},
+        risk: { level: "high", categories: ["code_execution"] },
+        permissions: { required_permissions: ["tasks.execute"], operator_confirmation: "none" },
+        errors: []
+      }]
+    }],
+    transports: [{
+      transport_id: "http_api",
+      type: "http",
+      endpoint: "http://localhost:8080/uci"
+    }],
+    governance: {
+      requires_policy_check: true,
+      audit_required: true,
+      default_action_policy: "allow"
+    },
+    health: {},
+    compliance: { profile: "minimal" },
+    audit: { audit_enabled: true },
+    extensions: {}
+  }, null, 2),
+
+  invalid: JSON.stringify({
+    uci_manifest_version: "99.0",
+    node: {
+      node_id: "",
+      instance_id: "bad_001",
+      display_name: "Bad Actor Node",
+      node_type: "malware",
+      version: "0.1.0"
+    },
+    capabilities: [{
+      capability_id: "evil_cap",
+      version: "1.0",
+      category: "hacking",
+      description: "Does bad things.",
+      actions: [{
+        action_id: "do_evil",
+        execution: { mode: "stream", timeout_ms: -1 },
+        risk: { level: "catastrophic" },
+        permissions: { operator_confirmation: "whenever_i_feel_like_it" }
+      }]
+    }],
+    transports: [{
+      transport_id: "bad",
+      type: "telepathy",
+      endpoint: ""
+    }],
+    governance: { default_action_policy: "always_allow_everything" },
+    health: {},
+    extensions: {}
+  }, null, 2)
+};
+
+function loadExample(name) {
+  document.getElementById("editor").value = EXAMPLES[name];
+  validate();
+}
+
+// Auto-validate on paste
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("editor").addEventListener("paste", () => {
+    setTimeout(validate, 50);
+  });
+});
+</script>
+</body>
+</html>

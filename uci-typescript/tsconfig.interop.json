@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist-interop",
+    "rootDir": "..",
+    "module": "ESNext",
+    "moduleResolution": "node"
+  },
+  "include": ["../uci-interop/*.ts", "src/**/*"]
+}

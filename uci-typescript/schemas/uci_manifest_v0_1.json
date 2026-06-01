@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uci-spec.org/schemas/uci_manifest_v0_1.json",
+  "title": "UCI Manifest v0.1",
+  "description": "Canonical schema for a Universal Capability Interface manifest. Every UCI node exposes exactly one manifest describing its identity, capabilities, transports, and governance requirements.",
+  "type": "object",
+  "required": [
+    "uci_manifest_version",
+    "node",
+    "capabilities",
+    "transports",
+    "governance",
+    "health"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "uci_manifest_version": {
+      "type": "string",
+      "enum": [
+        "0.1"
+      ],
+      "description": "UCI manifest specification version. Must be '0.1' for this schema."
+    },
+    "node": {
+      "type": "object",
+      "description": "Identity block \u2014 describes the node itself.",
+      "required": [
+        "node_id",
+        "instance_id",
+        "node_type",
+        "version",
+        "display_name"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_\\-\\.]+$",
+          "description": "Stable identifier for this node type. Must be non-empty and contain only alphanumeric, underscore, hyphen, or dot characters."
+        },
+        "instance_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for this specific running instance."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Human-readable name for this node."
+        },
+        "node_type": {
+          "type": "string",
+          "enum": [
+            "application",
+            "service",
+            "agent",
+            "daemon",
+            "adapter",
+            "hardware_bridge",
+            "orchestrator",
+            "policy_engine",
+            "registry"
+          ],
+          "description": "Canonical UCI v0.1 node type."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?(-[a-zA-Z0-9\\.]+)?$",
+          "description": "Semantic version of this node implementation."
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Organisation or individual that produced this node."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of what this node does."
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "One or more capability declarations. Must contain at least one entry.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "capability_id",
+          "version",
+          "category",
+          "actions"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier for this capability."
+          },
+          "version": {
+            "type": "string",
+            "description": "Version of this capability contract."
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "retrieval",
+              "storage",
+              "generation",
+              "analysis",
+              "transformation",
+              "communication",
+              "execution",
+              "governance",
+              "monitoring",
+              "vision",
+              "audio",
+              "identity",
+              "network",
+              "security",
+              "utility",
+              "other"
+            ],
+            "description": "Canonical UCI v0.1 capability category."
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "description": "One or more action declarations. Must contain at least one entry.",
+            "items": {
+              "type": "object",
+              "required": [
+                "action_id",
+                "execution",
+                "risk",
+                "permissions"
+              ],
+              "additionalProperties": true,
+              "properties": {
+                "action_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Stable identifier for this action within the capability."
+                },
+                "description": {
+                  "type": "string"
+                },
+                "execution": {
+                  "type": "object",
+                  "required": [
+                    "mode",
+                    "timeout_ms"
+                  ],
+                  "additionalProperties": true,
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "sync",
+                        "async",
+                        "streaming",
+                        "scheduled",
+                        "event_driven"
+                      ],
+                      "description": "Canonical UCI v0.1 execution mode. 'stream' is not valid \u2014 use 'streaming'."
+                    },
+                    "timeout_ms": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Maximum execution time in milliseconds. Must be at least 1."
+                    },
+                    "idempotent": {
+                      "type": "boolean"
+                    },
+                    "side_effects": {
+                      "type": "boolean"
+                    },
+                    "rollback_supported": {
+                      "type": "boolean"
+                    },
+                    "requires_confirmation": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "risk": {
+                  "type": "object",
+                  "required": [
+                    "level"
+                  ],
+                  "additionalProperties": true,
+                  "properties": {
+                    "level": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                      ],
+                      "description": "Risk level of this action."
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "read_only",
+                          "state_modifying",
+                          "destructive",
+                          "external_communication",
+                          "sensitive_data_access",
+                          "financial",
+                          "legal",
+                          "security_sensitive",
+                          "network_access",
+                          "filesystem_access",
+                          "code_execution",
+                          "operator_visible",
+                          "irreversible"
+                        ]
+                      }
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "permissions": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "required_permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "operator_confirmation": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "recommended",
+                        "required",
+                        "required_with_reason",
+                        "multi_party_required"
+                      ]
+                    },
+                    "minimum_trust_state": {
+                      "type": "string",
+                      "enum": [
+                        "unknown",
+                        "discovered",
+                        "verified",
+                        "trusted",
+                        "restricted",
+                        "suspended",
+                        "revoked"
+                      ]
+                    }
+                  }
+                },
+                "input_schema": {
+                  "type": "object",
+                  "description": "Describes expected input fields."
+                },
+                "output_schema": {
+                  "type": "object",
+                  "description": "Describes expected output fields."
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "transports": {
+      "type": "array",
+      "description": "One or more transport declarations. Must contain at least one entry.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "transport_id",
+          "type",
+          "endpoint"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "transport_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier for this transport endpoint."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https",
+              "websocket",
+              "ipc",
+              "grpc",
+              "message_bus",
+              "local_socket",
+              "custom"
+            ],
+            "description": "Canonical UCI v0.1 transport type. 'local' is not valid \u2014 use 'ipc' or 'local_socket'."
+          },
+          "endpoint": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Transport endpoint address. Must be non-empty."
+          },
+          "security": {
+            "type": "object"
+          },
+          "options": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "description": "Governance and policy requirements for this node.",
+      "additionalProperties": true,
+      "properties": {
+        "requires_policy_check": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "operator_authority_required": {
+          "type": "boolean"
+        },
+        "default_action_policy": {
+          "type": "string",
+          "enum": [
+            "allow",
+            "deny",
+            "defer"
+          ]
+        },
+        "sandbox_required": {
+          "type": "boolean"
+        },
+        "allow_remote_execution": {
+          "type": "boolean"
+        },
+        "signed_invocations_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "description": "Compliance profile declaration.",
+      "additionalProperties": true,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "minimal",
+            "standard",
+            "strict",
+            "development_relaxed"
+          ]
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit configuration for this node.",
+      "additionalProperties": true,
+      "properties": {
+        "audit_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Vendor-specific extensions. Must not conflict with reserved top-level keys.",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Informational metadata \u2014 not evaluated by governance.",
+      "additionalProperties": true
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "supported_manifest_versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "health": {
+      "type": "object",
+      "description": "Health and status declaration for this node.",
+      "additionalProperties": true,
+      "properties": {
+        "health_endpoint": {
+          "type": "string"
+        },
+        "check_interval_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expose_metrics": {
+          "type": "boolean"
+        },
+        "expose_uptime": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

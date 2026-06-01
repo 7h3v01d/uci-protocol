@@ -1,0 +1,53 @@
+{
+  "name": "uci-sdk",
+  "version": "0.1.0-alpha",
+  "description": "Universal Capability Interface — TypeScript SDK",
+  "author": "Leon Priest / KeystoneAI",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "demo": "open demo/index.html",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/ajv": "^0.0.5",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.19.41",
+    "ajv": "^8.20.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
+  }
+}
