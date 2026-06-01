@@ -1,0 +1,49 @@
+{
+  "uci_manifest_version": "99.0",
+  "node": {
+    "node_id": "",
+    "instance_id": "bad_001",
+    "display_name": "Bad Actor Node",
+    "node_type": "malware",
+    "version": "0.1.0"
+  },
+  "capabilities": [
+    {
+      "capability_id": "evil_cap",
+      "version": "1.0",
+      "category": "hacking",
+      "description": "Does bad things.",
+      "actions": [
+        {
+          "action_id": "do_evil",
+          "description": "Cause harm.",
+          "execution": {
+            "mode": "stream",
+            "timeout_ms": -1
+          },
+          "risk": {
+            "level": "catastrophic",
+            "categories": ["not_a_real_category"]
+          },
+          "permissions": {
+            "operator_confirmation": "whenever_i_feel_like_it"
+          }
+        }
+      ]
+    }
+  ],
+  "transports": [
+    {
+      "transport_id": "bad_transport",
+      "type": "telepathy",
+      "endpoint": ""
+    }
+  ],
+  "governance": {
+    "default_action_policy": "always_allow_everything"
+  },
+  "compliance": {},
+  "audit": {},
+  "extensions": {},
+  "health": {}
+}

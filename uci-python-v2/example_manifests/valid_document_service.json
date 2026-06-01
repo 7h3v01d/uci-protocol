@@ -1,0 +1,94 @@
+{
+  "uci_manifest_version": "0.1",
+  "node": {
+    "node_id": "keystone_doc_service",
+    "instance_id": "keystone_doc_001",
+    "display_name": "Keystone Document Service",
+    "node_type": "service",
+    "version": "1.0.0",
+    "vendor": "KeystoneAI",
+    "description": "Indexes and retrieves documents with semantic search."
+  },
+  "capabilities": [
+    {
+      "capability_id": "document_search",
+      "version": "1.0",
+      "category": "retrieval",
+      "description": "Search and retrieve indexed documents.",
+      "tags": [
+        "search",
+        "retrieval",
+        "documents"
+      ],
+      "actions": [
+        {
+          "action_id": "search_index",
+          "description": "Search the document index by query string.",
+          "execution": {
+            "mode": "sync",
+            "timeout_ms": 5000,
+            "idempotent": true,
+            "side_effects": false,
+            "rollback_supported": false,
+            "requires_confirmation": false
+          },
+          "input_schema": {
+            "query": "string",
+            "limit": "integer"
+          },
+          "output_schema": {
+            "results": "array",
+            "count": "integer"
+          },
+          "risk": {
+            "level": "low",
+            "categories": [
+              "read_only"
+            ],
+            "description": "Read-only search \u2014 no data modification."
+          },
+          "permissions": {
+            "required_permissions": [
+              "documents.read"
+            ],
+            "operator_confirmation": "none",
+            "minimum_trust_state": "trusted"
+          },
+          "errors": []
+        }
+      ]
+    }
+  ],
+  "transports": [
+    {
+      "transport_id": "local_ipc",
+      "type": "ipc",
+      "endpoint": "uci://local/keystone_doc_service",
+      "security": {},
+      "options": {}
+    }
+  ],
+  "governance": {
+    "requires_policy_check": true,
+    "audit_required": true,
+    "operator_authority_required": false,
+    "default_action_policy": "deny",
+    "sandbox_required": false,
+    "allow_remote_execution": false,
+    "signed_invocations_required": false
+  },
+  "compliance": {
+    "profile": "minimal"
+  },
+  "audit": {
+    "audit_enabled": true
+  },
+  "extensions": {},
+  "health": {
+    "health_endpoint": "",
+    "check_interval_ms": 30000,
+    "timeout_ms": 5000,
+    "expose_metrics": false,
+    "expose_uptime": true
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uci-spec.org/schemas/uci_response_v0_1.json",
+  "title": "UCI Response Envelope v0.1",
+  "description": "Canonical schema for a UCI response envelope. Every invocation produces exactly one UCIResponse.",
+  "type": "object",
+  "required": [
+    "uci_response_version",
+    "invocation_id",
+    "correlation_id",
+    "timestamp",
+    "state",
+    "success",
+    "provider",
+    "governance",
+    "audit"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "uci_response_version": {
+      "type": "string",
+      "enum": [
+        "0.1"
+      ]
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this invocation. UUID v4 recommended."
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Caller-supplied or generated correlation identifier for tracing."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp of when this response was produced."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "denied",
+        "cancelled",
+        "timed_out",
+        "partially_completed",
+        "deferred",
+        "queued",
+        "executing",
+        "rolled_back"
+      ],
+      "description": "Terminal or in-progress state of this invocation."
+    },
+    "success": {
+      "type": "boolean",
+      "description": "True if the action completed successfully and output is present."
+    },
+    "provider": {
+      "type": "object",
+      "required": [
+        "node_id",
+        "capability_id",
+        "action_id"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "capability_id": {
+          "type": "string"
+        },
+        "action_id": {
+          "type": "string"
+        }
+      }
+    },
+    "output": {
+      "description": "Action output payload. Present when success=true, null otherwise."
+    },
+    "error": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "code",
+            "message",
+            "severity",
+            "retryable"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string"
+            },
+            "detail": {
+              "type": "object"
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "info",
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            },
+            "retryable": {
+              "type": "boolean"
+            }
+          }
+        }
+      ],
+      "description": "Structured error block. Present when success=false, null otherwise."
+    },
+    "governance": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "trust_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "allow",
+            "allow_with_restrictions",
+            "defer",
+            "deny"
+          ]
+        },
+        "trust_state": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "discovered",
+            "verified",
+            "trusted",
+            "restricted",
+            "suspended",
+            "revoked"
+          ]
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operator_id": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "invocation_id",
+        "node_id",
+        "timestamp"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "invocation_id": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "capability_id": {
+          "type": "string"
+        },
+        "action_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "actor": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

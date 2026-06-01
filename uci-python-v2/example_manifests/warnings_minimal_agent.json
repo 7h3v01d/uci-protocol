@@ -1,0 +1,79 @@
+{
+  "uci_manifest_version": "0.1",
+  "node": {
+    "node_id": "minimal_agent",
+    "instance_id": "minimal_001",
+    "display_name": "Minimal Agent",
+    "node_type": "agent",
+    "version": "0.1.0",
+    "vendor": "",
+    "description": ""
+  },
+  "capabilities": [
+    {
+      "capability_id": "task_runner",
+      "version": "1.0",
+      "category": "execution",
+      "description": "",
+      "actions": [
+        {
+          "action_id": "run_task",
+          "description": "",
+          "execution": {
+            "mode": "async",
+            "timeout_ms": 30000,
+            "side_effects": true,
+            "requires_confirmation": false
+          },
+          "input_schema": {},
+          "output_schema": {},
+          "risk": {
+            "level": "high",
+            "categories": [
+              "code_execution"
+            ],
+            "description": "Executes arbitrary tasks."
+          },
+          "permissions": {
+            "required_permissions": [
+              "tasks.execute"
+            ],
+            "operator_confirmation": "none",
+            "minimum_trust_state": "trusted"
+          },
+          "errors": []
+        }
+      ]
+    }
+  ],
+  "transports": [
+    {
+      "transport_id": "http_api",
+      "type": "http",
+      "endpoint": "http://localhost:8080/uci",
+      "security": {},
+      "options": {}
+    }
+  ],
+  "governance": {
+    "requires_policy_check": true,
+    "audit_required": true,
+    "operator_authority_required": true,
+    "default_action_policy": "allow",
+    "signed_invocations_required": false
+  },
+  "compliance": {
+    "profile": "minimal"
+  },
+  "audit": {
+    "audit_enabled": true
+  },
+  "extensions": {},
+  "health": {
+    "health_endpoint": "",
+    "check_interval_ms": 30000,
+    "timeout_ms": 5000,
+    "expose_metrics": false,
+    "expose_uptime": true
+  }
+}

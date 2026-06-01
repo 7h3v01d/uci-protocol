@@ -1,0 +1,7 @@
+{
+  "uci_manifest_version": "0.1",
+  "node": {"node_id": "", "instance_id": "x", "display_name": "Bad", "node_type": "service", "version": "1.0.0"},
+  "capabilities": [{"capability_id": "c", "version": "1.0", "category": "retrieval", "actions": [{"action_id": "a", "execution": {"mode": "sync", "timeout_ms": 1000}, "risk": {"level": "low"}, "permissions": {}}]}],
+  "transports": [{"transport_id": "t", "type": "ipc", "endpoint": "x"}],
+  "governance": {}, "compliance": {}, "audit": {}, "extensions": {}, "health": {}
+}
