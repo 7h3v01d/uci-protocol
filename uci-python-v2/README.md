@@ -593,10 +593,10 @@ See `CONTRIBUTING.md` for details.
 
 ## Author
 
-**Leon Priest** · [KeystoneAI](https://keystoneai.dev)
+**Leon Priest**
 
 UCI is an open protocol. The specification, schemas, and this reference implementation are freely available for adoption. If you build something with UCI, get in touch.
 
 ---
 
-*UCI Reference Implementation · Python · v0.1.0-alpha · © Leon Priest / KeystoneAI*
+*UCI Reference Implementation · Python · v0.1.0-alpha · © Leon Priest*
