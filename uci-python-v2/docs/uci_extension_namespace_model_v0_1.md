@@ -74,7 +74,7 @@ vendor.extension_name
 Examples:
 
 ```text
-keystone.audit_profile
+acme.audit_profile
 examplecorp.policy_hints
 acme.runtime_controls
 ```
@@ -209,7 +209,7 @@ experimental.vendor.feature_name
 Example:
 
 ```text
-experimental.keystone.dynamic_routing
+experimental.acme.dynamic_routing
 ```
 
 Experimental extensions SHOULD:
@@ -227,7 +227,7 @@ Example:
 ```json
 {
   "extensions": [
-    "keystone.audit_profile",
+    "acme.audit_profile",
     "experimental.acme.runtime_optimizer"
   ]
 }

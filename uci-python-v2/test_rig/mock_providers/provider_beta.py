@@ -35,10 +35,10 @@ class ProviderBeta(UCIProvider):
             node = UCINode(
                 node_id      = "provider_beta",
                 instance_id  = "beta_local_001",
-                display_name = "Keystone Voice & File Service (Beta)",
+                display_name = "Example Voice & File Service (Beta)",
                 node_type    = "service",
                 version      = "0.9.0",
-                vendor       = "KeystoneAI",
+                vendor       = "Leon Priest",
                 description  = "Voice synthesis and file management — requires operator authority.",
             ),
             capabilities = [

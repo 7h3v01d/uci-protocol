@@ -76,7 +76,7 @@ The node block identifies the provider.
   "node_id": "librarian_pro",
   "node_name": "Librarian Pro",
   "node_type": "application",
-  "vendor": "Keystone AI",
+  "vendor": "UCI Protocol",
   "version": "2.4.0",
   "instance_id": "local-librarian-001"
 }
@@ -514,7 +514,7 @@ Example
 
 ```json
 {
-  "keystone": {
+  "acme": {
     "policy_profile": "strict_local",
     "audit_sink": "local_append_only"
   }

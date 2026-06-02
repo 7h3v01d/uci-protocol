@@ -92,7 +92,7 @@ def main() -> None:
     print(bold(magenta("  ╔══════════════════════════════════════════════╗")))
     print(bold(magenta("  ║   UCI — Universal Capability Interface       ║")))
     print(bold(magenta("  ║   Reference Test Rig  v0.1                   ║")))
-    print(bold(magenta("  ║   Author: Leon Priest / KeystoneAI           ║")))
+    print(bold(magenta("  ║   Author: Leon Priest              ║")))
     print(bold(magenta("  ╚══════════════════════════════════════════════╝")))
 
     # ── Build the engine stack ──────────────────

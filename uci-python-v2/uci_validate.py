@@ -399,7 +399,7 @@ class Reporter:
         print()
         print(self.bold(self.cyan("─" * 64)))
         print(self.bold(self.cyan("  UCI Manifest Validator  v0.1")))
-        print(self.bold(self.cyan("  KeystoneAI / Leon Priest")))
+        print(self.bold(self.cyan("  Leon Priest")))
         print(self.bold(self.cyan("─" * 64)))
 
     def print_report(self, report: ManifestReport) -> None:

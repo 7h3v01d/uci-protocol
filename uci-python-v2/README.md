@@ -356,7 +356,7 @@ class MyService(UCIProvider):
                 display_name = "My Service",        # required
                 node_type    = "service",
                 version      = "1.0.0",
-                vendor       = "KeystoneAI",
+                vendor       = "Leon Priest",
             ),
             capabilities = [
                 UCICapability(
@@ -575,7 +575,7 @@ The full protocol specification lives in `docs/` — 23 documents covering every
 The v0.1.0-alpha protocol surface is feature-frozen pending review and interoperability testing.
 
 - **HTTP transport layer** — real over-the-wire UCI between processes
-- **Niles/NYALS integration** — first production UCI node in the Keystone ecosystem
+- **Niles/NYALS integration** — first production UCI node integration
 - **UCI Registry service** — shared node discovery
 - **Interoperability validation** — Python ↔ Go ↔ TypeScript implementations proving UCI is genuinely language-neutral
 - **Multi-language reference implementations** — Go, TypeScript

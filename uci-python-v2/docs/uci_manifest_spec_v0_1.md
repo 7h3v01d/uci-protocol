@@ -309,7 +309,7 @@ ________________________________________
 ```json
 {
   "extensions": {
-    "keystone.audit_profile": {
+    "acme.audit_profile": {
       "enabled": true
     }
   }

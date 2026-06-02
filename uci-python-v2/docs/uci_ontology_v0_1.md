@@ -29,7 +29,7 @@ A System is the total UCI-aware environment.
 Example:
 
 ```text
-Keystone AI ecosystem
+UCI Protocol ecosystem
 ```
 
 A system may contain:
@@ -61,7 +61,7 @@ Examples:
 Niles
 Librarian Pro
 Voice Gateway
-Keystone Vault
+UCI Vault
 AXIS
 ```
 A node must expose a UCI manifest.
@@ -178,7 +178,7 @@ Examples:
 ```texr
 Niles
 AXIS
-Keystone Runtime Controller
+UCI Runtime Controller
 ```
 
 An orchestrator may not assume capabilities.

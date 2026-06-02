@@ -1,6 +1,6 @@
 """
 Mock Provider Alpha — Fully Compliant, Trusted Node
-Represents a well-behaved Keystone service exposing document search
+Represents a well-behaved example service exposing document search
 and health check capabilities. Should always reach TRUSTED state.
 """
 
@@ -34,10 +34,10 @@ class ProviderAlpha(UCIProvider):
             node = UCINode(
                 node_id      = "provider_alpha",
                 instance_id  = "alpha_local_001",
-                display_name = "Keystone Document Service (Alpha)",
+                display_name = "Example Document Service (Alpha)",
                 node_type    = "service",
                 version      = "1.2.0",
-                vendor       = "KeystoneAI",
+                vendor       = "Leon Priest",
                 description  = "Indexes and retrieves documents with semantic search.",
             ),
             capabilities = [

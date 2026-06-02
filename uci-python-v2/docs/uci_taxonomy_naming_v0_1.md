@@ -271,7 +271,7 @@ vendor.extension_name
 ```
 Examples:
 ```text
-keystone.audit_profile
+acme.audit_profile
 examplecorp.runtime_flags
 acme.custom_transport
 ```

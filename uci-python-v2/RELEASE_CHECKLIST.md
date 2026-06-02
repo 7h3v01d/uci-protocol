@@ -137,4 +137,4 @@ Cross-process transport:   next
 
 ---
 
-*UCI Release Checklist · v0.1.0-alpha · © Leon Priest / KeystoneAI*
+*UCI Release Checklist · v0.1.0-alpha · © Leon Priest*

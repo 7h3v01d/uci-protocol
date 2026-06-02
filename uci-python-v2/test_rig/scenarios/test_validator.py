@@ -25,7 +25,7 @@ VALID_MANIFEST = {
         "display_name": "Test Node",
         "node_type": "service",
         "version": "1.0.0",
-        "vendor": "KeystoneAI",
+        "vendor": "Leon Priest",
         "description": "A test service.",
     },
     "capabilities": [

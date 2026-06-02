@@ -33,7 +33,7 @@ VALID_MANIFEST = {
         "display_name": "Schema Test Node",
         "node_type": "service",
         "version": "1.0.0",
-        "vendor": "KeystoneAI",
+        "vendor": "Leon Priest",
         "description": "A node for schema testing.",
     },
     "capabilities": [

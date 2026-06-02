@@ -41,7 +41,7 @@ Spec (json_schema §node) marks `display_name` as required.
 
 ### Gap 8 — JSON schema $id URIs
 Spec proposes `uci-spec.org` as canonical URI.
-All three schemas updated from `uci.keystoneai.dev` to `uci-spec.org`.
+All three schemas updated from `uci-spec.org` to `uci-spec.org`.
 
 ### Gap 9 — Repository structure
 Spec (repository_structure) defines: `docs/`, `test_vectors/`, `LICENSE`,

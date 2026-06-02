@@ -1,7 +1,7 @@
 # Universal Capability Interface (UCI)
 ### Foundational Architecture Proposal
 ### Draft v0.1
-### Author: Leon Priest / Keystone AI
+### Author: Leon Priest / UCI Protocol
 ________________________________________
 ### 1. Executive Summary
 
@@ -136,7 +136,7 @@ Every UCI-compatible system must expose identity metadata.
   "uci_version": "1.0",
   "app_id": "librarian_pro",
   "app_name": "Librarian Pro",
-  "vendor": "Keystone AI",
+  "vendor": "UCI Protocol",
   "version": "2.4.0",
   "instance_id": "node-alpha-01"
 }
@@ -318,7 +318,7 @@ Initial UCI scope should remain intentionally narrow.
 ________________________________________
 ### 12. Reference Use Cases
 #### Niles
-Dynamic orchestration of Keystone ecosystem applications.
+Dynamic orchestration of UCI ecosystem applications.
 ________________________________________
 #### Librarian Pro
 
@@ -328,7 +328,7 @@ ________________________________________
 
 Expose TTS/STT runtime capabilities.
 ________________________________________
-#### Keystone Vault
+#### UCI Vault
 
 Expose governed storage and retrieval interfaces.
 ________________________________________
@@ -375,7 +375,7 @@ ________________________________________
 -	Handshake server/client 
 -	Capability registry 
 ________________________________________
-### Phase 3 — Keystone Integration
+### Phase 3 — Production Integration
 
   -	Niles UCI orchestrator support 
   -	Librarian Pro UCI support 
