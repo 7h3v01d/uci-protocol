@@ -137,4 +137,4 @@ Extensions must use the vendor namespace model (`vendor.extension_name`).
 
 ---
 
-*UCI Specification · v0.1 · © Leon Priest / KeystoneAI · MIT License*
+*UCI Specification · v0.1 · © Leon Priest · MIT License*
