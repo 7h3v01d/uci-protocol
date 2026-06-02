@@ -56,7 +56,7 @@ are now included under `docs/`.
 - `test_vectors/invalid/` — invalid manifest test vectors
 - `test_vectors/warnings/` — warning-producing test vectors
 - `test_rig/scenarios/test_patch7_spec_alignment.py` — 47 spec alignment tests
-- `LICENSE` — MIT
+- `LICENSE` — Apache-2.0
 - `CONTRIBUTING.md`
 - `SECURITY.md`
 

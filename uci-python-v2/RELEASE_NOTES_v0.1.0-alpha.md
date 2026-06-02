@@ -148,11 +148,11 @@ Cross-process transport:   next
 **Leon Priest** 
 
 UCI is an open protocol. The specification, schemas, and reference implementations
-are freely available for adoption under the MIT licence.
+are freely available for adoption under the Apache 2.0 licence.
 
 If you build something with UCI, or implement UCI in another language,
 please get in touch.
 
 ---
 
-*UCI v0.1.0-alpha · © Leon Priest · MIT License*
+*UCI v0.1.0-alpha · © Leon Priest · Apache License 2.0*

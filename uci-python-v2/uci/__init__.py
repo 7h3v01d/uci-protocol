@@ -18,5 +18,5 @@ Quick start:
 
 __version__ = "0.1.0-alpha"
 __author__  = "Leon Priest"
-__license__ = "MIT"
+__license__ = "Apache-2.0"
 __spec_version__ = "0.1"

@@ -108,7 +108,7 @@ LICENSE
 
 Recommended:
 ```text
-MIT License
+Apache License 2.0
 ```
 
 #### SPEC.md
