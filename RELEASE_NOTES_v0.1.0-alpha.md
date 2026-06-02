@@ -155,4 +155,4 @@ please get in touch.
 
 ---
 
-*UCI v0.1.0-alpha · © Leon Priest / KeystoneAI · MIT License*
+*UCI v0.1.0-alpha · © Leon Priest · MIT License*
