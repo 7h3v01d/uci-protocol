@@ -122,8 +122,8 @@ only the JSON schemas and compliance suite as your guide.
 **Leon Priest**
 
 UCI is an open protocol. The specification, schemas, and implementations
-are freely available for adoption under the MIT licence.
+are freely available for adoption under the Apache 2.0 licence.
 
 ---
 
-*UCI v0.1.0-alpha · © Leon Priest · MIT License*
+*UCI v0.1.0-alpha · © Leon Priest · Apache License 2.0*
