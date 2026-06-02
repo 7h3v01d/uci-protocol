@@ -119,11 +119,11 @@ only the JSON schemas and compliance suite as your guide.
 
 ## Author
 
-**Leon Priest** · [KeystoneAI](https://keystoneai.dev)
+**Leon Priest**
 
 UCI is an open protocol. The specification, schemas, and implementations
 are freely available for adoption under the MIT licence.
 
 ---
 
-*UCI v0.1.0-alpha · © Leon Priest / KeystoneAI · MIT License*
+*UCI v0.1.0-alpha · © Leon Priest MIT License*
