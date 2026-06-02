@@ -126,4 +126,4 @@ are freely available for adoption under the MIT licence.
 
 ---
 
-*UCI v0.1.0-alpha · © Leon Priest MIT License*
+*UCI v0.1.0-alpha · © Leon Priest - MIT License*
