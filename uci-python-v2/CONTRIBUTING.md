@@ -24,4 +24,4 @@ Changes MUST NOT:
 
 ## Contact
 
-Leon Priest · KeystoneAI
+Leon Priest
