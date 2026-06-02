@@ -1,0 +1,17 @@
+{
+  "name": "uci-http-client-example",
+  "version": "0.2.0",
+  "description": "UCI HTTP Client Example — TypeScript client for the Python UCI provider",
+  "author": "Leon Priest",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "demo": "npm run build && node dist/demo.js",
+    "demo:url": "UCI_PROVIDER_URL=http://localhost:8000 npm run demo"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41",
+    "typescript": "^5.9.3"
+  }
+}
