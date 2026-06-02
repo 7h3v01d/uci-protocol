@@ -42,7 +42,7 @@ async function main() {
       display_name: "TypeScript Voice Service",
       node_type:    "service",
       version:      "1.0.0",
-      vendor:       "KeystoneAI",
+      vendor:       "Leon Priest",
       description:  "Produced by TypeScript SDK implementation.",
     },
     capabilities: [{

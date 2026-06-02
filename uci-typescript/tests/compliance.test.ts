@@ -20,7 +20,7 @@ const VALID_MANIFEST = {
   node: {
     node_id: "test_node", instance_id: "test_001",
     display_name: "Test Node", node_type: "service",
-    version: "1.0.0", vendor: "KeystoneAI",
+    version: "1.0.0", vendor: "Leon Priest",
   },
   capabilities: [{
     capability_id: "document_search", version: "1.0",

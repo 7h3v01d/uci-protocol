@@ -455,11 +455,11 @@
   <footer>
     <div>
       UCI Reference Implementation ·
-      <a href="https://github.com/keystoneai/uci-python" target="_blank">GitHub</a> ·
+      <a href="https://github.com/uci-protocol/uci-python" target="_blank">GitHub</a> ·
       <a href="https://uci-spec.org" target="_blank">Spec</a>
     </div>
     <div class="footer-right">
-      <span>© Leon Priest / KeystoneAI</span>
+      <span>© Leon Priest</span>
       <span>MIT License</span>
     </div>
   </footer>
@@ -757,12 +757,12 @@ const EXAMPLES = {
   valid: JSON.stringify({
     uci_manifest_version: "0.1",
     node: {
-      node_id: "keystone_doc_service",
-      instance_id: "keystone_doc_001",
-      display_name: "Keystone Document Service",
+      node_id: "example_doc_service",
+      instance_id: "example_doc_001",
+      display_name: "Example Document Service",
       node_type: "service",
       version: "1.0.0",
-      vendor: "KeystoneAI",
+      vendor: "Leon Priest",
       description: "Indexes and retrieves documents with semantic search."
     },
     capabilities: [{
@@ -785,7 +785,7 @@ const EXAMPLES = {
     transports: [{
       transport_id: "local_ipc",
       type: "ipc",
-      endpoint: "uci://local/keystone_doc_service",
+      endpoint: "uci://local/example_doc_service",
       security: {}, options: {}
     }],
     governance: {

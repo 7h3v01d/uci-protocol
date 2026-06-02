@@ -53,7 +53,7 @@ def main():
             display_name = "Python Document Service",
             node_type    = "service",
             version      = "1.0.0",
-            vendor       = "KeystoneAI",
+            vendor       = "Leon Priest",
             description  = "Produced by Python reference implementation.",
         ),
         capabilities = [UCICapability(

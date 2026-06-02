@@ -2,7 +2,7 @@
   "name": "uci-sdk",
   "version": "0.1.0-alpha",
   "description": "Universal Capability Interface — TypeScript SDK",
-  "author": "Leon Priest / KeystoneAI",
+  "author": "Leon Priest",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

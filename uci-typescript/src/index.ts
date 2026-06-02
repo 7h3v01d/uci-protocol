@@ -2,7 +2,7 @@
  * UCI — Universal Capability Interface
  * TypeScript SDK  v0.1.0-alpha
  *
- * Author:  Leon Priest / KeystoneAI
+ * Author:  Leon Priest
  * License: MIT
  */
 

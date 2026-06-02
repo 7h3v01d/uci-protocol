@@ -196,7 +196,7 @@ const manifest = new UCIManifest({
   uci_manifest_version:"0.1",
   node:{ node_id:"typescript_voice_service", instance_id:"ts_voice_001",
          display_name:"TypeScript Voice Service", node_type:"service",
-         version:"1.0.0", vendor:"KeystoneAI", description:"Produced by TypeScript SDK." },
+         version:"1.0.0", vendor:"Leon Priest", description:"Produced by TypeScript SDK." },
   capabilities:[{ capability_id:"voice_tts", version:"1.0", category:"audio",
     description:"Text-to-speech.", tags:["voice","tts"],
     actions:[{ action_id:"synthesize", description:"Convert text to audio.",
