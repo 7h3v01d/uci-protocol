@@ -145,7 +145,7 @@ Cross-process transport:   next
 
 ## Author
 
-**Leon Priest** · KeystoneAI
+**Leon Priest** 
 
 UCI is an open protocol. The specification, schemas, and reference implementations
 are freely available for adoption under the MIT licence.
