@@ -10,7 +10,7 @@
 
 Please do not report security vulnerabilities through public GitHub issues.
 
-Contact: Leon Priest / KeystoneAI
+Contact: Leon Priest
 
 Provide:
 - Description of the vulnerability
