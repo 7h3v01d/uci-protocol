@@ -118,4 +118,4 @@ JSON Schemas: [`schemas/`](schemas/)
 
 ---
 
-*UCI TypeScript SDK · v0.1.0-alpha · © Leon Priest · MIT*
+*UCI TypeScript SDK · v0.1.0-alpha · © Leon Priest · Apache-2.0*
