@@ -59,6 +59,8 @@ One of the biggest friction points in adopting any protocol is the blank page pr
 
 UCI Scout exists to remove that friction entirely.
 
+https://github.com/7h3v01d/uci-scout
+
 Point it at any Python project. It reads the source — never executes it, never imports it, never touches a running process. Pure static analysis. It finds every HTTP route, every CLI command, every public function and service method, scores how naturally they map to UCI, and generates a ready-to-edit manifest scaffold.
 
 The first time you run Scout against a codebase you've been working on for months and see it mapped out as UCI capabilities with inferred risk levels and execution modes — that's when the protocol stops being abstract and starts being real.
