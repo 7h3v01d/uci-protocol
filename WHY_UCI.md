@@ -57,9 +57,7 @@ These aren't features added for enterprise sales decks. They are the foundation.
 
 One of the biggest friction points in adopting any protocol is the blank page problem. You know you want to integrate — but where do you start? What does your existing codebase even expose? How do you map twenty services worth of routes, functions, and CLI commands into a governed capability manifest?
 
-UCI Scout exists to remove that friction entirely.
-
-https://github.com/7h3v01d/uci-scout
+UCI Scout exists to remove that friction entirely. [https://github.com/7h3v01d/uci-scout](https://github.com/7h3v01d/uci-scout)
 
 Point it at any Python project. It reads the source — never executes it, never imports it, never touches a running process. Pure static analysis. It finds every HTTP route, every CLI command, every public function and service method, scores how naturally they map to UCI, and generates a ready-to-edit manifest scaffold.
 
